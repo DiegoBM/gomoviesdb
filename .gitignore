@@ -1,0 +1,8 @@
+.env
+
+/pgdata/
+/tmp/
+
+/.DS_Store
+
+.log
