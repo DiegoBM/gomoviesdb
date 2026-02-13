@@ -6,10 +6,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Movies DB</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="manifest" href="app.webmanifest">
+  <link rel="icon" href="images/icon.png">
 </head>
 
 <body>
-
+  <header>
+    <h1><img src="images/logo.png" height="35" alt="Movies DB Logo"></h1>
+    <nav>
+      <ul>
+        <li><a class="navlink" href="/">Movies</a></li>
+        <li><a class="navlink" href="/account/favorites">Favorites</a></li>
+        <li><a class="navlink" href="/account/watchlits">Watchlist</a></li>
+        <li><a class="navlink" href="/account">My Account</a></li>
+      </ul>
+    </nav>
+    <div>
+      <form onsubmit="app.search(event)">
+        <input type="search" name="search" id="search" placeholder="Search movies">
+      </form>
+    </div>
+  </header>
+  <main></main>
+  <footer>
+    <p>© Movies DB - Diego BM</p>
+  </footer>
 </body>
 
 </html>
