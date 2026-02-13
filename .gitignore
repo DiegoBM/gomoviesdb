@@ -5,5 +5,5 @@
 
 /.DS_Store
 
-.log
+*.log
 notes.md
