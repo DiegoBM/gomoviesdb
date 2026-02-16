@@ -8,6 +8,8 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="manifest" href="app.webmanifest">
   <link rel="icon" href="images/icon.png">
+  <script type="module" src="app.js" defer></script>
+  <!-- <script type="module" src="components/HomePage.js" defer></script> -->
 </head>
 
 <body>
@@ -27,10 +29,24 @@
       </form>
     </div>
   </header>
-  <main></main>
+  <main>
+    <!-- <home-page></home-page> -->
+  </main>
   <footer>
     <p>© Movies DB - Diego BM</p>
   </footer>
+
+  <!-- Web Components Templates -->
+  <template id="tpl-home">
+    <section class="vertical-scroll" id="top-10">
+      <h2>This week's top movies</h2>
+      <ul></ul>
+    </section>
+    <section class="vertical-scroll" id="random">
+      <h2>What to watch today</h2>
+      <ul></ul>
+    </section>
+  </template>
 </body>
 
 </html>
