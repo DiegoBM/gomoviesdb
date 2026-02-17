@@ -57,7 +57,15 @@ func main() {
 	http.HandleFunc("/api/movies/", movieHandlers.GetMovie)
 	http.HandleFunc("/api/genres", movieHandlers.GetGenres)
 
-	// Server handler for static files
+	// Handle SPA routing
+	catchAllClientRoutesHandler := func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "./public/index.html")
+	}
+	http.HandleFunc("/movies/", catchAllClientRoutesHandler)
+	http.HandleFunc("/movies", catchAllClientRoutesHandler)
+	http.HandleFunc("/account/", catchAllClientRoutesHandler)
+
+	// Server handler for static files, Catches all routes to serve them from public
 	// The path, use in a relative manner, is relative to your working directory
 	http.Handle("/", http.FileServer(http.Dir("public")))
 

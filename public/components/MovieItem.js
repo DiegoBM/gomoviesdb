@@ -7,15 +7,23 @@ export class MovieItem extends HTMLElement {
   }
 
   connectedCallback() {
-    const { title, poster_url, release_year } = this.movie;
+    const { id, title, poster_url, release_year } = this.movie;
 
+    // this.innerHTML = `
+    //   <a href="#" onclick="arguments[0].preventDefault();app.Router.go('/movies/${id}')">
+    //     <article>
+    //       <img src="${poster_url}" alt="${title} Poster" />
+    //       <p>${title} (${release_year})</p>
+    //     </article>
+    //   </a>
+    // `;
     this.innerHTML = `
-      <a href="#">
+      <nav-link data-url="/movies/${id}">
         <article>
           <img src="${poster_url}" alt="${title} Poster" />
           <p>${title} (${release_year})</p>
         </article>
-      </a>
+      </nav-link>
     `;
   }
 }

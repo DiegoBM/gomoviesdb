@@ -4,8 +4,14 @@ export class MovieDetailsPage extends HTMLElement {
   id = null;
   movie = null;
 
+  constructor(params) {
+    super();
+
+    this.movie = params?.at(0) ?? 1;
+  }
+
   connectedCallback() {
-    this.movie = 140;
+    // this.movie = this.params ? this.params[0] : 1;
 
     this.render();
   }

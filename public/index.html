@@ -5,22 +5,26 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Movies DB</title>
-  <link rel="stylesheet" href="styles.css">
-  <link rel="manifest" href="app.webmanifest">
-  <link rel="icon" href="images/icon.png">
-  <script type="module" src="app.js" defer></script>
-  <!-- <script type="module" src="components/HomePage.js" defer></script> -->
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="manifest" href="/app.webmanifest">
+  <link rel="icon" href="/images/icon.png">
+  <script type="module" src="/app.js" defer></script>
+  <base href="/">
 </head>
 
 <body>
   <header>
-    <h1><img src="images/logo.png" height="35" alt="Movies DB Logo"></h1>
+    <h1><img src="/images/logo.png" height="35" alt="Movies DB Logo"></h1>
     <nav>
       <ul>
-        <li><a class="navlink" href="/">Movies</a></li>
+        <!-- <li><a class="navlink" href="/">Movies</a></li>
         <li><a class="navlink" href="/account/favorites">Favorites</a></li>
         <li><a class="navlink" href="/account/watchlits">Watchlist</a></li>
-        <li><a class="navlink" href="/account">My Account</a></li>
+        <li><a class="navlink" href="/account">My Account</a></li> -->
+        <li><nav-link data-url="/">Movies</nav-link></li>
+        <li><nav-link data-url="/account/favorites">Favorites</nav-link></li>
+        <li><nav-link data-url="/account/watchlits">Watchlist</nav-link></li>
+        <li><nav-link data-url="/account">My Account</nav-link></li>
       </ul>
     </nav>
     <div>
@@ -29,9 +33,7 @@
       </form>
     </div>
   </header>
-  <main>
-    <!-- <home-page></home-page> -->
-  </main>
+  <main></main>
   <footer>
     <p>© Movies DB - Diego BM</p>
   </footer>

@@ -1,11 +1,10 @@
 import { API } from "./services/API.js";
-
-import { HomePage } from "./components/HomePage.js";
-import { MovieDetailsPage } from "./components/MovieDetailsPage.js";
+import { Router } from "./services/Router.js";
 // Import that triggers the component registration, since this components are not
 // being instantiated using JavaScript, but directly from HTML tags
 import "./components/AnimatedLoading.js";
 import "./components/YouTubeEmbed.js";
+import "./components/NavLink.js"
 
 /**
  * Search event handler
@@ -21,12 +20,11 @@ function search(event) {
 }
 
 window.app = {
+  Router,
   search,
   api: API
 }
 
 window.addEventListener("DOMContentLoaded", () => {
-  // Programmatically instantiate a Web Component
-  // document.querySelector("main").appendChild(new HomePage());
-  document.querySelector("main").appendChild(new MovieDetailsPage());
+  app.Router.init()
 })
