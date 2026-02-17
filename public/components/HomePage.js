@@ -1,9 +1,14 @@
 import { API } from "../services/API.js";
 import { MovieItem } from "./MovieItem.js";
 
+// You don't need to always extend HTMLElement. You could also extend from one
+// of the subclasses like HTMLButtonElement, and start from there
 export class HomePage extends HTMLElement {
   // Override HTMLElement's "connectedCallback", called when the component is
-  // "mounted" in the DOM
+  // "mounted" in the DOM.
+  // "connectedCallback" can't be "async" because that's not the signature of the
+  // parent class, that's why we create a "render" method to fetch from the API
+  // and render the component
   connectedCallback() {
     // Grab the template from the document
     const template = document.getElementById("tpl-home");
@@ -38,6 +43,6 @@ function renderMoviesInList(movies, list) {
   }
 }
 
-// Web Component Registration
+// Web Component html tag Registration
 // Web Component element tags need to have AT LEAST one hyphen in their names
 customElements.define('home-page', HomePage);

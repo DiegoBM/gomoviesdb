@@ -1,5 +1,6 @@
 export class MovieItem extends HTMLElement {
   constructor(movie) {
+    // When you override the constructor, you MUST call "super()" first
     super();
 
     this.movie = movie;
@@ -19,5 +20,5 @@ export class MovieItem extends HTMLElement {
   }
 }
 
-// Web Component Registration
+// Web Component html tag Registration
 customElements.define("movie-item", MovieItem);

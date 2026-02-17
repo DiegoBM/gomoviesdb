@@ -1,6 +1,11 @@
 import { API } from "./services/API.js";
 
 import { HomePage } from "./components/HomePage.js";
+import { MovieDetailsPage } from "./components/MovieDetailsPage.js";
+// Import that triggers the component registration, since this components are not
+// being instantiated using JavaScript, but directly from HTML tags
+import "./components/AnimatedLoading.js";
+import "./components/YouTubeEmbed.js";
 
 /**
  * Search event handler
@@ -22,5 +27,6 @@ window.app = {
 
 window.addEventListener("DOMContentLoaded", () => {
   // Programmatically instantiate a Web Component
-  document.querySelector("main").appendChild(new HomePage());
+  // document.querySelector("main").appendChild(new HomePage());
+  document.querySelector("main").appendChild(new MovieDetailsPage());
 })
