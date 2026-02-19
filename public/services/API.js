@@ -6,7 +6,12 @@ async function apiFetch(serviceName, args) {
     return await fetch(url).then(res => res.json());
   } catch (e) {
     console.error(e);
+    throw e;
   }
+}
+
+function getGenres() {
+  return apiFetch("/genres");
 }
 
 function getTopMovies() {
@@ -25,7 +30,9 @@ function searchMovies(q, order, genre) {
   return apiFetch(`/movies/search`, { q, order, genre });
 }
 
+
 export const API = {
+  getGenres,
   getTopMovies,
   getRandomMovies,
   getMovieById,

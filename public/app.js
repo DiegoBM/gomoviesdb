@@ -6,6 +6,15 @@ import "./components/AnimatedLoading.js";
 import "./components/YouTubeEmbed.js";
 import "./components/NavLink.js"
 
+const selectors = {
+  searchBox: "input[type=search]"
+};
+
+const ids = {
+  modal: "alert-modal",
+  modalMessage: "alert-modal-message"
+};
+
 /**
  * Search event handler
  * @param {SubmitEvent} event - Form submit event
@@ -14,14 +23,61 @@ import "./components/NavLink.js"
 function search(event) {
   event.preventDefault();
 
-  /** @type {HTMLInputElement | null} */
-  const searchBox = document.querySelector("input[type=search]");
+  /** @type { HTMLInputElement | null } */
+  const searchBox = document.querySelector(selectors.searchBox);
   const q = searchBox ? searchBox.value : '';
+  window.app.Router.go("/movies?q=" + q);
+}
+
+function searchFilterChange(value) {
+  const searchParams = new URLSearchParams(window.location.search);
+  if (isNaN(value)) {
+    searchParams.delete("genre");
+  } else {
+    searchParams.set("genre", value);
+  }
+  window.app.Router.go(window.location.pathname + '?' + searchParams.toString());
+}
+
+function searchOrderChange(value) {
+  const searchParams = new URLSearchParams(window.location.search);
+  searchParams.set("order", value);
+  window.app.Router.go(window.location.pathname + '?' + searchParams.toString());
+}
+
+function showError(message = "There was an error", goToHome = true) {
+  /** @type { HTMLDialogElement | null } */
+  const dialogElement = document.getElementById(ids.modal);
+  if (dialogElement) {
+    /** @type { HTMLParagraphElement | null } */
+    const messageElement = document.getElementById(ids.modalMessage);
+    if (messageElement) {
+      messageElement.textContent = message;
+    }
+
+    dialogElement.showModal();
+
+    if (goToHome) {
+      window.app.Router.go("/");
+    }
+  }
+}
+
+function closeError() {
+  /** @type { HTMLDialogElement | null } */
+  const dialogElement = document.getElementById(ids.modal);
+  if (dialogElement) {
+    dialogElement.close();
+  }
 }
 
 window.app = {
   Router,
   search,
+  searchFilterChange,
+  searchOrderChange,
+  showError,
+  closeError,
   api: API
 }
 

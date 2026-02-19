@@ -20,7 +20,7 @@ export class MovieItem extends HTMLElement {
     this.innerHTML = `
       <nav-link data-url="/movies/${id}">
         <article>
-          <img src="${poster_url}" alt="${title} Poster" />
+          <img src="${poster_url ?? ""}" alt="${title} Poster" />
           <p>${title} (${release_year})</p>
         </article>
       </nav-link>
