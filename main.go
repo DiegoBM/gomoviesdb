@@ -48,6 +48,10 @@ func main() {
 	if err != nil {
 		logInstance.Fatal("Could not initialize the Movie repository", err)
 	}
+	accountRepo, err := data.NewAccountRepository(db, logInstance)
+	if err != nil {
+		logInstance.Fatal("Could not initialize the Account repository", err)
+	}
 
 	// Movie handlers
 	movieHandlers := handlers.NewMovieHandler(movieRepo, logInstance)
@@ -56,6 +60,11 @@ func main() {
 	http.HandleFunc("/api/movies/search", movieHandlers.SearchMovies)
 	http.HandleFunc("/api/movies/", movieHandlers.GetMovie)
 	http.HandleFunc("/api/genres", movieHandlers.GetGenres)
+
+	// Account handlers
+	accountHandler := handlers.NewAccountHandler(accountRepo, logInstance)
+	http.HandleFunc("/api/account/register", accountHandler.Register)
+	http.HandleFunc("/api/account/authenticate", accountHandler.Authenticate)
 
 	// Handle SPA routing
 	catchAllClientRoutesHandler := func(w http.ResponseWriter, r *http.Request) {
