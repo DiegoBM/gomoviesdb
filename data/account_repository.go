@@ -23,11 +23,11 @@ func NewAccountRepository(db *sql.DB, log *logger.Logger) (*AccountRepository, e
 	}, nil
 }
 
-func (r *AccountRepository) Register(name, email, password string) (bool, error) {
+func (r *AccountRepository) Register(name, email, password string) (bool, int, error) {
 	// Validate basic requirements
 	if name == "" || email == "" || password == "" {
 		r.logger.Error("Registration validation failed: missing required fields", nil)
-		return false, ErrRegistrationValidation
+		return false, -1, ErrRegistrationValidation
 	}
 
 	// Check if user already exists
@@ -37,18 +37,18 @@ func (r *AccountRepository) Register(name, email, password string) (bool, error)
 	`, email).Scan(&exists)
 	if err != nil {
 		r.logger.Error("Failed to check existing user", err)
-		return false, err
+		return false, -1, err
 	}
 	if exists {
 		r.logger.Error("User already exists with email: "+email, ErrUserAlreadyExists)
-		return false, ErrUserAlreadyExists
+		return false, -1, ErrUserAlreadyExists
 	}
 
 	// Hash the password
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
 		r.logger.Error("Failed to hash password", err)
-		return false, err
+		return false, -1, err
 	}
 
 	// Insert new user
@@ -67,16 +67,16 @@ func (r *AccountRepository) Register(name, email, password string) (bool, error)
 	).Scan(&userID)
 	if err != nil {
 		r.logger.Error("Failed to register user", err)
-		return false, err
+		return false, -1, err
 	}
 
-	return true, nil
+	return true, userID, nil
 }
 
-func (r *AccountRepository) Authenticate(email string, password string) (bool, error) {
+func (r *AccountRepository) Authenticate(email string, password string) (bool, int, error) {
 	if email == "" || password == "" {
 		r.logger.Error("Authentication validation failed: missing credentials", nil)
-		return false, ErrAuthenticationValidation
+		return false, -1, ErrAuthenticationValidation
 	}
 
 	// Fetch user by email
@@ -94,18 +94,18 @@ func (r *AccountRepository) Authenticate(email string, password string) (bool, e
 	)
 	if err == sql.ErrNoRows {
 		r.logger.Error("User not found for email: "+email, nil)
-		return false, ErrAuthenticationValidation
+		return false, -1, ErrAuthenticationValidation
 	}
 	if err != nil {
 		r.logger.Error("Failed to query user for authentication", err)
-		return false, err
+		return false, -1, err
 	}
 
 	// Verify password
 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
 	if err != nil {
 		r.logger.Error("Password mismatch for email: "+email, nil)
-		return false, ErrAuthenticationValidation
+		return false, -1, ErrAuthenticationValidation
 	}
 
 	// Update last login time
@@ -120,7 +120,7 @@ func (r *AccountRepository) Authenticate(email string, password string) (bool, e
 		// Don't fail authentication just because last login update failed
 	}
 
-	return true, nil
+	return true, user.ID, nil
 }
 
 func (r *AccountRepository) GetAccountDetails(email string) (models.User, error) {

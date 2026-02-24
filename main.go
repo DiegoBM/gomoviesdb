@@ -65,6 +65,10 @@ func main() {
 	accountHandler := handlers.NewAccountHandler(accountRepo, logInstance)
 	http.HandleFunc("/api/account/register", accountHandler.Register)
 	http.HandleFunc("/api/account/authenticate", accountHandler.Authenticate)
+	// Protected endpoints
+	http.Handle("/api/account/favorites", accountHandler.AuthMiddleware(http.HandlerFunc(accountHandler.GetFavorites)))
+	http.Handle("/api/account/watchlist", accountHandler.AuthMiddleware(http.HandlerFunc(accountHandler.GetWatchlist)))
+	http.Handle("/api/account/save-to-collection", accountHandler.AuthMiddleware(http.HandlerFunc(accountHandler.SaveToCollection)))
 
 	// Handle SPA routing
 	catchAllClientRoutesHandler := func(w http.ResponseWriter, r *http.Request) {
@@ -73,6 +77,7 @@ func main() {
 	http.HandleFunc("/movies/", catchAllClientRoutesHandler)
 	http.HandleFunc("/movies", catchAllClientRoutesHandler)
 	http.HandleFunc("/account/", catchAllClientRoutesHandler)
+	http.HandleFunc("/account", catchAllClientRoutesHandler)
 
 	// Server handler for static files, Catches all routes to serve them from public
 	// The path, use in a relative manner, is relative to your working directory

@@ -64,6 +64,21 @@ export class MovieDetailsPage extends HTMLElement {
             `;
         ulCast.appendChild(li);
       });
+
+      const favoritesButton = document.getElementById("add-to-favorites");
+      if (favoritesButton) {
+        favoritesButton.addEventListener("click", async () => {
+          app.saveToCollection(this.movie.id, "favorite");
+        });
+      }
+
+      const watchlistButton = document.getElementById("add-to-watchlist");
+      if (watchlistButton) {
+        watchlistButton.addEventListener("click", async () => {
+          app.saveToCollection(this.movie.id, "watchlist");
+        });
+      }
+
     }
   }
 }
